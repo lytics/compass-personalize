@@ -1,16 +1,16 @@
 import { Page } from '@/types'
+
+import React, { useEffect } from 'react'
 import { useLocaleContext } from '@/context'
 import packageInfo from '@/package.json'
 
-import React, { useEffect } from "react";
-
 interface LyticsTrackingProps {
-	key: string;
-	accountId: string;
+    key: string;
+    accountId: string;
 }
 
 const LyticsTracking: React.FC<LyticsTrackingProps> = ({ accountId }) => {
-	const snippet = `!function(){"use strict";var o=window.jstag||(window.jstag={}),r=[];
+    const snippet = `!function(){"use strict";var o=window.jstag||(window.jstag={}),r=[];
 function n(e){o[e]=function(){for(var n=arguments.length,t=new Array(n),i=0;i<n;i++)t[i]=arguments[i];
 r.push([e,t])}}n("send"),n("mock"),n("identify"),n("pageView"),n("unblock"),n("getid"),
 n("setid"),n("loadEntity"),n("getEntity"),n("on"),n("once"),n("call"),o.loadScript=function(n,t,i){
@@ -32,19 +32,20 @@ jstag.init({
 });
 
 // You may need to send a page view, depending on your use-case
-jstag.pageView();`;
-	// 735f0433cdd95e0070ad26650e8d2381
-	useEffect(() => {
-		const script = document.createElement("script");
-		script.type = "text/javascript";
-		script.text = snippet;
-		document.head.appendChild(script);
-		// Clean up the script when the component unmounts
-		return () => {
-			document.head.removeChild(script);
-		};
-	}, []);
-};
+jstag.pageView();`
+    // 735f0433cdd95e0070ad26650e8d2381
+    useEffect(() => {
+        const script = document.createElement('script')
+        script.type = 'text/javascript'
+        script.text = snippet
+        document.head.appendChild(script)
+        // Clean up the script when the component unmounts
+        return () => {
+            document.head.removeChild(script)
+        }
+    }, [])
+    return null
+}
 
 const SEO: React.FC<Page.SeoProps> = (props: Page.SeoProps) => {
 
@@ -117,7 +118,7 @@ const SEO: React.FC<Page.SeoProps> = (props: Page.SeoProps) => {
                 rel='icon'
                 href='/favicon.ico'
             />
-            <LyticsTracking key="noalerts" accountId="735f0433cdd95e0070ad26650e8d2381" />
+            <LyticsTracking key='noalerts' accountId='735f0433cdd95e0070ad26650e8d2381' />
         </>
     )
 }
