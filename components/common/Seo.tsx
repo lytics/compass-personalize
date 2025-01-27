@@ -2,6 +2,50 @@ import { Page } from '@/types'
 import { useLocaleContext } from '@/context'
 import packageInfo from '@/package.json'
 
+import React, { useEffect } from "react";
+
+interface LyticsTrackingProps {
+	key: string;
+	accountId: string;
+}
+
+const LyticsTracking: React.FC<LyticsTrackingProps> = ({ accountId }) => {
+	const snippet = `!function(){"use strict";var o=window.jstag||(window.jstag={}),r=[];
+function n(e){o[e]=function(){for(var n=arguments.length,t=new Array(n),i=0;i<n;i++)t[i]=arguments[i];
+r.push([e,t])}}n("send"),n("mock"),n("identify"),n("pageView"),n("unblock"),n("getid"),
+n("setid"),n("loadEntity"),n("getEntity"),n("on"),n("once"),n("call"),o.loadScript=function(n,t,i){
+var e=document.createElement("script");e.async=!0,e.src=n,e.onload=t,e.onerror=i;
+var o=document.getElementsByTagName("script")[0],r=o&&o.parentNode||document.head||document.body,
+c=o||r.lastChild;return null!=c?r.insertBefore(e,c):r.appendChild(e),this},o.init=function n(t){
+return this.config=t,this.loadScript(t.src,function(){if(o.init===n)throw new Error("Load error!");
+o.init(o.config),function(){for(var n=0;n<r.length;n++){var t=r[n][0],i=r[n][1];o[t].apply(o,i)}
+r=void 0}()}),this}}();
+
+// Define config and initialize Lytics tracking tag.
+jstag.init({
+    src: 'https://c.lytics.io/api/tag/${accountId}/latest.min.js',
+    pageAnalysis: {
+        dataLayerPull: {
+            disabled: true
+        }
+    }
+});
+
+// You may need to send a page view, depending on your use-case
+jstag.pageView();`;
+	// 735f0433cdd95e0070ad26650e8d2381
+	useEffect(() => {
+		const script = document.createElement("script");
+		script.type = "text/javascript";
+		script.text = snippet;
+		document.head.appendChild(script);
+		// Clean up the script when the component unmounts
+		return () => {
+			document.head.removeChild(script);
+		};
+	}, []);
+};
+
 const SEO: React.FC<Page.SeoProps> = (props: Page.SeoProps) => {
 
     const { seo: {no_follow, no_index, description, canonical_url} = {}, locale, summary, url, locales} = props
@@ -73,6 +117,7 @@ const SEO: React.FC<Page.SeoProps> = (props: Page.SeoProps) => {
                 rel='icon'
                 href='/favicon.ico'
             />
+            <LyticsTracking key="noalerts" accountId="735f0433cdd95e0070ad26650e8d2381" />
         </>
     )
 }
