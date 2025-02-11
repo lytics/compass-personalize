@@ -16,7 +16,11 @@ export default function handler (request) {
         // Forward modified request without the 'seer' param
         return fetch(new Request(newUrl, request)).then((res) => {
             const headers = new Headers(res.headers)
-            headers.set('seerid', seerValue)
+            headers.append(
+                'Set-Cookie',
+                `seerid=${seerValue}; Domain=.${parsedUrl.hostname};`
+            )
+
             return new Response(res.body, {
                 status: res.status,
                 statusText: res.statusText,
