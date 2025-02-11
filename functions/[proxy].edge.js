@@ -12,11 +12,13 @@ export default function handler (request) {
 
         // Forward modified request without the 'seer' param
         return fetch(new Request(newUrl, request)).then((res) => {
-            res.headers.set(
-                'Set-Cookie',
-                `seerid=${seerValue}; Path=/; SameSite=Lax`
-            )
-            return res
+            return new Response(res.body, {
+                ...res,
+                headers: {
+                    ...res.headers,
+                    seerid: seerValue
+                }
+            })
         })
     }
 
