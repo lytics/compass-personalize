@@ -5,7 +5,7 @@ export default function handler (request) {
     if (route === '/appliances') {
         const response = {
             cookies: request.cookies,
-            test: "Hello from the edge!",
+            test: 'Hello from the edge!',
             time: new Date().toISOString() // Use ISO format for consistency
         }
         return new Response(JSON.stringify(response), {
