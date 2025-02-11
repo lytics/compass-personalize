@@ -1,6 +1,6 @@
+import React, { useEffect } from 'react'
 import { Page } from '@/types'
 
-import React, { useEffect } from 'react'
 import { useLocaleContext } from '@/context'
 import packageInfo from '@/package.json'
 

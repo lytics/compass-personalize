@@ -1,8 +1,8 @@
+import { VB_EmptyBlockParentClass } from '@contentstack/live-preview-utils'
 import { CardCollection, FeaturedArticles, Teaser, Text, TextAndImage } from '@/components'
 import { Page } from '@/types'
 import { pageBlocks } from '@/types/pages'
 import { isDataInLiveEdit } from '@/utils'
-import { VB_EmptyBlockParentClass } from '@contentstack/live-preview-utils'
 
 function RenderComponents ({ components, featured_articles, $, isABEnabled = false }: Page.pageRenderProps) {
 

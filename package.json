@@ -11,7 +11,8 @@
     "build": "next build",
     "start": "next start",
     "prebuild": "npm run lint",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "fmt": "eslint --fix ."
   },
   "overrides": {
     "eslint-config-next": {
