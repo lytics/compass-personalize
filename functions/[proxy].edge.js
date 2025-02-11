@@ -5,27 +5,25 @@ export default function handler (request) {
     if (searchParams.has('seer')) {
         const seerValue = searchParams.get('seer')
 
-        const searchString = searchParams.toString()
         // Remove 'seer' from the query params to rewrite the URL
         searchParams.delete('seer')
-        const newUrl
-      = parsedUrl.origin
-      + parsedUrl.pathname
-      + (searchString ? '?' + searchString : '')
+        const searchString = searchParams.toString()
+        const newUrl = `${parsedUrl.origin}${parsedUrl.pathname}${
+            searchString ? '?' + searchString : ''
+        }`
 
-        // Forward modified request without the 'seer' param
-        return fetch(new Request(newUrl, request)).then((res) => {
-            const headers = new Headers(res.headers)
-            headers.append(
-                'Set-Cookie',
-                `seerid=${seerValue}; Domain=.${parsedUrl.hostname};`
-            )
+        // Set a cookie with 'seerid'
+        const headers = new Headers()
+        headers.append(
+            'Set-Cookie',
+            `seerid=${seerValue}; Domain=.${parsedUrl.hostname};;`
+        + `cs-personalize-user-uid=${seerValue};`
+        )
+        headers.append('Location', newUrl)
 
-            return new Response(res.body, {
-                status: res.status,
-                statusText: res.statusText,
-                headers
-            })
+        return new Response(null, {
+            status: 302, // Temporary redirect
+            headers
         })
     }
 
