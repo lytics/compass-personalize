@@ -7,6 +7,7 @@ export default function handler (request) {
 
         // Remove 'seer' from the query params to rewrite the URL
         searchParams.delete('seer')
+        searchParams.set('ts', Date.now().toString()) // cache buster
         const searchString = searchParams.toString()
         const newUrl = `${parsedUrl.origin}${parsedUrl.pathname}${
             searchString ? '?' + searchString : ''
